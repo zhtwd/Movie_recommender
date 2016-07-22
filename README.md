@@ -1,4 +1,4 @@
-# Music recommendation server
+# Movie recommendation server
 ----------------------------
 
 ### There are 3 end points
