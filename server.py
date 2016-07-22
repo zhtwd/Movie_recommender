@@ -90,22 +90,22 @@ def get_rank(user):
     others_listened_history(user)
     followee_listened(user)
     movie_similarity(user)
-    sorted_music_rank = sorted(movie_rank.items(),
+    sorted_movie_rank = sorted(movie_rank.items(),
                                key=operator.itemgetter(1), reverse=True)
     reco = []
     if user in watch:
-        liked_songs = sorted(watch[user].items(),
+        liked_movies = sorted(watch[user].items(),
                 key=operator.itemgetter(1), reverse=True)
-        reco.extend(zip(*liked_songs)[0][:2])
-    logger.info('recommend using personal music history: %s' % reco)
+        reco.extend(zip(*liked_movies)[0][:2])
+    logger.info('recommend using personal movie history: %s' % reco)
     
-    reco.extend(zip(*sorted_music_rank)[0][:5-len(reco)])
+    reco.extend(zip(*sorted_movie_rank)[0][:5-len(reco)])
     logger.info('recommend using designed logic: %s' % reco)
 
     while len(reco) < 5:
-        random_song = random.choice(movies.keys())
-        if random_song not in reco:
-            reco.append(random_song)
+        random_movie = random.choice(movies.keys())
+        if random_movie not in reco:
+            reco.append(random_movie)
     logger.info('final recommending list: %s' % reco)
 
     return reco
@@ -118,19 +118,19 @@ def cosine_similarity(a, b):
 def others_listened_history(user):
     if user not in watch:
         return
-    for song in set(watch[user].keys()):
-        for other_user in watch_reversed[song].difference(user):
+    for movie in set(watch[user].keys()):
+        for other_user in watch_reversed[movie].difference(user):
             similarity = 0.1
             try:
                 similarity = max(similarity, cosine_similarity(
                     watch[user], watch[other_user]))
             except:
                 pass
-            for other_song in set(watch[other_user].keys()):
-                if other_song == song:
+            for other_movie in set(watch[other_user].keys()):
+                if other_movie == movie:
                     continue
-                movie_rank[other_song] += similarity
-    logger.info(('music ranking after using music history'
+                movie_rank[other_movie] += similarity
+    logger.info(('movie ranking after using movie history'
                  ' of other users: %s') % movie_rank)
 
 
@@ -144,9 +144,9 @@ def followee_listened(user):
             similarity += cosine_similarity(watch[user], watch[followee])
         except:
             pass
-        for song in watch[followee]:
-            movie_rank[song] += similarity
-    logger.info(('music ranking after using music history'
+        for movie in watch[followee]:
+            movie_rank[movie] += similarity
+    logger.info(('movie ranking after using movie history'
                  ' based on followed people: %s') % movie_rank)
 
 
