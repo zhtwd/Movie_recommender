@@ -1,0 +1,11 @@
+{
+  "description": "Dummy follows: list[0] is following list[1]",
+  "operations": [
+    ["a","b"],
+    ["a","c"],
+    ["b","c"],
+    ["b","d"],
+    ["b","e"],
+    ["c","a"]
+  ]
+}
