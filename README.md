@@ -14,7 +14,7 @@ Add one movie as the user has just watched ( see `watch.json` )
 
 the request body have 2 params:
 - user: \<user ID\>
-- music: \<music ID\>
+- movie: \<movie ID\>
 
 ##### `GET /recommendations`
 Return 5 music recommendations to this user, they should be sorted by relevance

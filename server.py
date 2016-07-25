@@ -87,15 +87,15 @@ def recommend():
 def get_rank(user):
     global movie_rank
     movie_rank = defaultdict(float)
-    others_listened_history(user)
-    followee_listened(user)
+    others_watched_history(user)
+    followee_watched(user)
     movie_similarity(user)
     sorted_movie_rank = sorted(movie_rank.items(),
                                key=operator.itemgetter(1), reverse=True)
     reco = []
     if user in watch:
         liked_movies = sorted(watch[user].items(),
-                key=operator.itemgetter(1), reverse=True)
+                              key=operator.itemgetter(1), reverse=True)
         reco.extend(zip(*liked_movies)[0][:2])
     logger.info('recommend using personal movie history: %s' % reco)
     
@@ -115,7 +115,7 @@ def cosine_similarity(a, b):
     return len(set(a).intersection(set(b))) / float(len(set(a)) * len(set(b)))
 
 
-def others_listened_history(user):
+def others_watched_history(user):
     if user not in watch:
         return
     for movie in set(watch[user].keys()):
@@ -134,7 +134,7 @@ def others_listened_history(user):
                  ' of other users: %s') % movie_rank)
 
 
-def followee_listened(user):
+def followee_watched(user):
     if user not in follows:
         return
     followees = follows[user]    
